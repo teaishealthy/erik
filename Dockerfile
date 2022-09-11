@@ -12,4 +12,4 @@ RUN poetry config virtualenvs.create false \
 
 COPY . .
 
-CMD ["poetry", "run", "python", "erik.py"]
+CMD ["poetry", "run", "python", "main.py"]
