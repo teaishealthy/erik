@@ -18,21 +18,22 @@ bot = Erik("Erik [BOT]", prefix="erik ")
 @bot.command()
 async def help(ctx: Context, *commands: str):
     """Shows this message."""
-    command = " ".join(commands)
-    if not command:
-        command_texts: List[str] = []
-        for command in bot.commands:  # type: ignore
-            command_texts.append(f"{command} {' ' * (20 - len(command))} {bot.commands[command].__doc__}")  # type: ignore
-        await bot.send(codeblock("\n".join(command_texts)))
-    else:
+    if command := " ".join(commands):
         await bot.send(inspect.getdoc(bot.commands[command]))  # type: ignore
+    else:
+        command_texts: List[str] = [
+            f"{command} {' ' * (20 - len(command))} {bot.commands[command].__doc__}"
+            for command in bot.commands
+        ]
+
+        await bot.send(codeblock("\n".join(command_texts)))
 
 
 @bot.command()
 async def ping(_: Context):
     """Ping the bot."""
     s = time.perf_counter()
-    await bot.send(f"Pong!")
+    await bot.send("Pong!")
     e = time.perf_counter()
     await bot.send(f"Time taken: {round((e-s)*1000)}ms")
 
