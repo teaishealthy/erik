@@ -7,11 +7,8 @@ ASCII_CHARS = ["@", "#", "$", "%", "?", "*", "+", ";", ":", ",", "."]
 
 def pixel_to_ascii(image: Image):
     pixels: List[int] = image.getdata()  # type: ignore
-    ascii_str = ""
     pixel: int
-    for pixel in pixels:
-        ascii_str += ASCII_CHARS[pixel // 25]
-    return ascii_str
+    return "".join(ASCII_CHARS[pixel // 25] for pixel in pixels)
 
 
 def convert_to_ascii_art(img: Image) -> str:
@@ -27,10 +24,9 @@ def convert_to_ascii_art(img: Image) -> str:
     # add newlines
     pixels = pixel_to_ascii(img)
     length = len(pixels)
-    ascii_image = ""
-    for i in range(0, length, new_width):
-        ascii_image += pixels[i : i + new_width] + "\n"
-    return ascii_image
+    return "".join(
+        pixels[i : i + new_width] + "\n" for i in range(0, length, new_width)
+    )
 
 
 def codeblock(content: str, lang: str = "enoki") -> str:
